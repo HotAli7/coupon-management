@@ -1,34 +1,8 @@
 function initialState() {
     return {
         coupons: [],
+        searchedCouponAll: [],
         couponAll: [],
-        coupon_medias: [],
-        ageGroup: [],
-        newTalent: {
-            id: "",
-            name: "",
-            age: "",
-            gender: "",
-            status: "",
-            avatar: null
-        },
-        currentTalent: {
-            id: "",
-            name: "",
-            age: "",
-            gender: "",
-            status: "",
-            avatar: null
-        },
-        gender: [
-            { id: "3", name: "Male" },
-            { id: "4", name: "Female" },
-        ],
-        status: [
-            { id: "P", name: "Pending / Pause" },
-            { id: "L", name: "Live" },
-            { id: "D", name: "Dead" },
-        ],
         errorMsg: false,
         successMsg: false,
         showAddModal: false,
@@ -54,6 +28,29 @@ const getters = {
         return rows
     },
     couponAll: state => state.coupons,
+    searchedCouponAll: state => state.coupons,
+    activeCount: state => {
+        let active_count = 0
+        if (state.searchedCouponAll.length != 0)
+        {
+            state.searchedCouponAll.map(coupon => {
+                if (coupon['status'])
+                    active_count++
+            });
+        }
+        return active_count
+    },
+    expiredCount: state => {
+        let expired_count = 0
+        if (state.searchedCouponAll.length != 0)
+        {
+            state.searchedCouponAll.map(coupon => {
+                if (!coupon['status'])
+                    expired_count++
+            });
+        }
+        return expired_count
+    },
     coupon_medias: state => state.coupon_medias,
     ageGroup: state => {
         let ageGroupData = state.ageGroup
@@ -93,25 +90,6 @@ const actions = {
                     else
                     {
                         commit('setAll', response.data);
-                    }
-                })
-            .catch(error => {
-                let message = error.data.message || error.message
-                commit('setError', message)
-                console.log(message)
-            })
-    },
-    fetchAgeGroupData({ commit, state }) {
-
-        axios.get("/wp-json/vtm/v1/coupon-age-group")
-            .then(
-                function(response) {
-                    if (response.data.error) {
-                        commit('setError', response.data.message)
-                    }
-                    else
-                    {
-                        commit('setAgeGroup', response.data.age_group);
                     }
                 })
             .catch(error => {
@@ -320,6 +298,9 @@ const actions = {
     setSearchKey({ commit }, value) {
         commit('setSearchKey', value)
     },
+    filterCoupon({ commit }, value) {
+        commit('filterCoupon', value)
+    },
     resetState({ commit }) {
         commit('resetState')
     }
@@ -329,12 +310,10 @@ const mutations = {
     setAll(state, items) {
         state.coupons = items
         state.couponAll = items
+        state.searchedCouponAll = items
     },
     setTalentMedia(state, item) {
         state.coupon_medias = item
-    },
-    setAgeGroup(state, items) {
-        state.ageGroup = items
     },
     selectTalent(state, value1) {
         state.currentTalent.id      = value1['id_voice_coupon']
@@ -380,11 +359,16 @@ const mutations = {
 
         if (state.couponAll.length != 0)
         {
-            state.coupons = state.couponAll.filter(coupon => {
+            state.searchedCouponAll = state.couponAll.filter(coupon => {
                 return coupon.coupon_name.toLowerCase().includes(state.key.toLowerCase());
             });
             state.currentPage = 0
         }
+    },
+    filterCoupon(state, value) {
+        state.coupons = state.searchedCouponAll.filter(coupon => {
+            return coupon.status == value;
+        });
     },
     setSuccess(state, value) {
         state.successMsg = value

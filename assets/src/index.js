@@ -10,13 +10,14 @@ import Vue from 'vue';
 import VueAxios from 'vue-axios';
 import vSelect from 'vue-select';
 import moment from 'moment'
-import router from './route'
 import store from './store/store';
 import App from './App';
+import VueTailwindPicker from 'vue-tailwind-picker'
 
 import './style.css';
 
 Vue.use(VueAxios, axios);
+Vue.use(VueTailwindPicker)
 
 Vue.component('v-select', vSelect);
 Vue.filter('formatDate', function(value) {
@@ -34,7 +35,6 @@ Vue.filter('truncate', function (value, limit) {
 
 var app = new Vue({
     el: '#coupon',
-    router,
     store,
     render: h => h(App)
 })
