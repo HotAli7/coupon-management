@@ -39,7 +39,7 @@
                                 </div>
                             </div>
                             <div class="flex-1">
-                                <input placeholder="" class="bg-transparent p-1 px-2 appearance-none outline-none h-full w-full text-gray-800">
+                                <input placeholder="" class="bg-transparent p-1 px-2 appearance-none outline-none h-full w-full text-gray-800" @focusin="displayVoiceItemList(true)" @focusout="displayVoiceItemList(false)">
                             </div>
                         </div>
                         <div class="text-gray-300 w-8 py-1 pl-2 pr-1 border-l flex items-center border-gray-200 svelte-1l8159u">
@@ -51,7 +51,7 @@
                         </div>
                     </div>
                 </div>
-                <div v-show="false" class="absolute shadow top-100 bg-white z-40 w-full lef-0 rounded max-h-select overflow-y-auto svelte-5uyqqj">
+                <div v-show="showStatus" class="absolute shadow top-100 bg-white z-40 w-full lef-0 rounded max-h-select overflow-y-auto svelte-5uyqqj">
                     <div class="flex flex-col w-full">
                         <div class="cursor-pointer w-full border-gray-100 rounded-t border-b hover:bg-teal-100">
                             <div class="flex w-full items-center p-2 pl-2 border-transparent border-l-2 relative hover:border-teal-100">
@@ -118,7 +118,17 @@
 
 <script>
     export default {
-        name: "MultiSelect"
+        name: "MultiSelect",
+        data() {
+            return {
+                showStatus: false
+            }
+        },
+        methods: {
+            displayVoiceItemList(value) {
+                this.showStatus = value
+            }
+        }
     }
 </script>
 
