@@ -27,45 +27,50 @@
                                 </div>
                                 <div class="mt-4">
                                     <label class="inline-flex items-center">
-                                        <input type="radio" class="form-radio" name="accountType" value="personal">
+                                        <input type="radio" class="form-radio" name="accountType" @click="updateDiscountType(true)" checked>
                                         <span class="ml-2">Discount in %</span>
                                     </label>
                                     <label class="inline-flex items-center ml-6">
-                                        <input type="radio" class="form-radio" name="accountType" value="busines">
+                                        <input type="radio" class="form-radio" name="accountType" @click="updateDiscountType(false)">
                                         <span class="ml-2">Discount in Number</span>
                                     </label>
                                 </div>
-                                <div class="mt-4">
-                                    <input aria-label="Discount, %" name="discount" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Discount, %" @change="updateName($event)">
+                                <div class="mt-4" v-if="discountType">
+                                    <input aria-label="Discount, %" name="discount" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Discount, %" @change="updateDiscount($event)">
+                                </div>
+                                <div class="mt-4" v-else>
+                                    <fieldset class="mt-4 flex flex">
+                                        <input aria-label="Discount, EUR" name="discount" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Discount, EUR" @change="UpdateMinusEUR($event)">
+                                        <input aria-label="Discount, USD" name="discount" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Discount, USD" @change="UpdateMinusUSD($event)">
+                                    </fieldset>
+                                    <fieldset class="mt-4 flex flex">
+                                        <input aria-label="Discount, NZD" name="discount" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Discount, NZD" @change="UpdateMinusNZD($event)">
+                                        <input aria-label="Discount, GBP" name="discount" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Discount, GBP" @change="UpdateMinusGBP($event)">
+                                    </fieldset>
+                                    <fieldset class="mt-4 flex flex">
+                                        <input aria-label="Discount, AUD" name="discount" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Discount, AUD" @change="UpdateMinusAUD($event)">
+                                        <input aria-label="Discount, %" name="discount" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5 none" placeholder="Discount, %" @change="UpdateMinusAUD($event)">
+                                    </fieldset>
                                 </div>
                                 <div class="mt-4">
-                                    <fieldset class="mt-4 flex flex">
-                                        <input aria-label="Discount, %" name="discount" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Discount, %" @change="updateName($event)">
-                                        <input aria-label="Discount, %" name="discount" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Discount, %" @change="updateName($event)">
-                                    </fieldset>
-                                    <fieldset class="mt-4 flex flex">
-                                        <input aria-label="Discount, %" name="discount" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Discount, %" @change="updateName($event)">
-                                        <input aria-label="Discount, %" name="discount" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Discount, %" @change="updateName($event)">
-                                    </fieldset>
-                                    <fieldset class="mt-4 flex flex">
-                                        <input aria-label="Discount, %" name="discount" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Discount, %" @change="updateName($event)">
-                                        <input aria-label="Discount, %" name="discount" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5 none" placeholder="Discount, %" @change="updateName($event)">
-                                    </fieldset>
-                                </div>
-                                <div class="mt-4">
+                                    <label class="block mb-1">Line Items:</label>
                                     <MultiSelect />
                                 </div>
                                 <div class="mt-4">
+                                    <label class="block mb-1">Except Line Items:</label>
                                     <MultiSelect />
                                 </div>
                                 <div class="mt-4">
-                                    <input aria-label="URL Address" name="url" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="URL Address" @change="updateName($event)">
+                                    <label for="url" class="block mb-1 cursor-pointer">URL Address:</label>
+                                    <input aria-label="URL Address" id="url" name="url" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="URL Address" @change="updateURL($event)">
                                 </div>
                                 <div class="mt-4">
-                                    <input aria-label="Except URL Address" name="except_url" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Except URL Address" @change="updateName($event)">
+                                    <label for="except_url" class="block mb-1 cursor-pointer">Except URL Address:</label>
+                                    <input aria-label="Except URL Address" id="except_url" name="except_url" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Except URL Address" @change="updateExceptURL($event)">
                                 </div>
                                 <div class="mt-4">
-                                    <input aria-label="Usage Limit (Number of Times)" name="usage_limit" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Usage Limit (Number of Times)" @change="updateName($event)">
+                                    <label for="usage_limit" class="block mb-1 cursor-pointer">Usage Limit:</label>
+                                    <input aria-label="Usage Limit (Number of Times)" id="usage_limit" name="usage_limit" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Usage Limit (Number of Times)" @change="UpdateUsageLimit($event)">
                                 </div>
                                 <div class="mt-4">
                                     <fieldset class="mt-4 flex flex">
@@ -122,7 +127,7 @@
         components: { MultiSelect, VueTailwindPicker },
         data() {
             return {
-                value: ''
+                discountType: true,
             }
         },
         created() {
@@ -141,22 +146,10 @@
                 }
                 this.setModalVisibility(v)
             },
-            loadAvatar(event) {
-                var image = document.getElementById('output_avatar');
-                image.src = URL.createObjectURL(event.target.files[0]);
-                this.setAvatar(event.target.files[0])
-            },
-            updateName(event) {
-                this.setName(event.target.value)
-            },
-            updateGender(event) {
-                this.setGender(event.target.value)
-            },
-            updateAge(event) {
-                this.setAge(event.target.value)
-            },
-            updateStatus(event) {
-                this.setStatus(event.target.value)
+            updateDiscountType(value)
+            {
+                this.discountType = value
+                console.log(this.discountType)
             }
         }
     }
