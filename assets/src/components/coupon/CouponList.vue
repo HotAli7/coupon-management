@@ -131,7 +131,8 @@
                     this.activeFilterButton = "text-purple-600"
                     this.expiredFilterButton = "text-green-600"
                 }
-            }
+            },
+            selectCoupon
         }
     }
 </script>

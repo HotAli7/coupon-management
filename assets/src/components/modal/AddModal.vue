@@ -54,11 +54,11 @@
                                 </div>
                                 <div class="mt-4">
                                     <label class="block mb-1">Line Items:</label>
-                                    <MultiSelect />
+                                    <multiselect v-model="value" :options="options" :multiple="true" group-values="libs" group-label="language" :group-select="true" placeholder="Type to search" track-by="name" label="name"><span slot="noResult">Oops! No elements found. Consider changing the search query.</span></multiselect>
                                 </div>
                                 <div class="mt-4">
                                     <label class="block mb-1">Except Line Items:</label>
-                                    <MultiSelect />
+                                    <multiselect v-model="value" :options="options" :multiple="true" group-values="libs" group-label="language" :group-select="true" placeholder="Type to search" track-by="name" label="name"><span slot="noResult">Oops! No elements found. Consider changing the search query.</span></multiselect>
                                 </div>
                                 <div class="mt-4">
                                     <label for="url" class="block mb-1 cursor-pointer">URL Address:</label>
@@ -128,6 +128,30 @@
         data() {
             return {
                 discountType: true,
+                options: [
+                    {
+                        language: 'Javascript',
+                        libs: [
+                            { name: 'Vue.js', category: 'Front-end' },
+                            { name: 'Adonis', category: 'Backend' }
+                        ]
+                    },
+                    {
+                        language: 'Ruby',
+                        libs: [
+                            { name: 'Rails', category: 'Backend' },
+                            { name: 'Sinatra', category: 'Backend' }
+                        ]
+                    },
+                    {
+                        language: 'Other',
+                        libs: [
+                            { name: 'Laravel', category: 'Backend' },
+                            { name: 'Phoenix', category: 'Backend' }
+                        ]
+                    }
+                ],
+                value: []
             }
         },
         created() {
@@ -155,6 +179,7 @@
     }
 </script>
 
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style scoped>
 
 </style>

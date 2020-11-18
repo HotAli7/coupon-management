@@ -12,14 +12,17 @@ import vSelect from 'vue-select';
 import moment from 'moment'
 import store from './store/store';
 import App from './App';
-import VueTailwindPicker from 'vue-tailwind-picker'
+import Multiselect from 'vue-multiselect';
+
+// register globally
 
 import './style.css';
 
 Vue.use(VueAxios, axios);
-Vue.use(VueTailwindPicker)
 
 Vue.component('v-select', vSelect);
+Vue.component('multiselect', Multiselect)
+
 Vue.filter('formatDate', function(value) {
     if (value) {
         return moment(String(value)).format('MM/DD/YYYY')
