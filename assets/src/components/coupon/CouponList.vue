@@ -22,8 +22,8 @@
                         <table class="min-w-full divide-y divide-gray-200 table-auto">
                             <CouponHeader/>
                             <tbody class="bg-white divide-y divide-gray-200">
-                            <tr v-for="coupon in data" @click="selectCoupon({ value1: coupon, value2: 'showEditModal' })">
-                                <td class="px-6 py-4 text-sm leading-5 text-purple-900">
+                            <tr class="cursor-pointer" v-for="coupon in data">
+                                <td class="px-6 py-4 text-sm leading-5 text-purple-900 hover:text-purple-500" @click="selectCoupon({ value1: coupon, value2: 'showEditModal' })">
                                     {{coupon.coupon_name}}
                                 </td>
                                 <td class="px-6 py-4 text-sm leading-5 text-purple-900">
@@ -76,7 +76,10 @@
             </div>
         </div>
         <Pagination/>
+
         <AddModal />
+        <EditModal />
+        <DeleteModal />
     </div>
 </template>
 
@@ -88,9 +91,11 @@
     import CouponHeader from "./CouponHeader";
 
     import AddModal from "../modal/AddModal";
+    import EditModal from "../modal/EditModal";
+    import DeleteModal from "../modal/DeleteModal";
     export default {
         name: "CouponList",
-        components: { CouponHeader, Pagination, Alert, AddModal },
+        components: { CouponHeader, Pagination, Alert, AddModal, EditModal, DeleteModal },
         data() {
             return {
                 'activeFilterButton': 'text-green-600',
@@ -131,8 +136,7 @@
                     this.activeFilterButton = "text-purple-600"
                     this.expiredFilterButton = "text-green-600"
                 }
-            },
-            selectCoupon
+            }
         }
     }
 </script>
