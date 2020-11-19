@@ -22,33 +22,33 @@
                         <table class="min-w-full divide-y divide-gray-200 table-auto">
                             <CouponHeader/>
                             <tbody class="bg-white divide-y divide-gray-200">
-                            <tr class="cursor-pointer" v-for="coupon in data">
-                                <td class="px-6 py-4 text-sm leading-5 text-purple-900 hover:text-purple-500" @click="selectCoupon({ value1: coupon, value2: 'showEditModal' })">
+                            <tr class="cursor-pointer hover:bg-gray-200" v-for="coupon in data">
+                                <td class="px-6 py-4 text-sm leading-5 text-purple-900" @click="selectCoupon({ value1: coupon, value2: 'showEditModal' })">
                                     {{coupon.coupon_name}}
                                 </td>
-                                <td class="px-6 py-4 text-sm leading-5 text-purple-900">
+                                <td class="px-6 py-4 text-sm leading-5 text-purple-900" @click="selectCoupon({ value1: coupon, value2: 'showEditModal' })">
                                     {{coupon.discount}} %
                                 </td>
-                                <td class="px-6 py-4 text-sm leading-5 text-purple-900">
+                                <td class="px-6 py-4 text-sm leading-5 text-purple-900" @click="selectCoupon({ value1: coupon, value2: 'showEditModal' })">
                                     <span v-if="coupon.minus_EUR != 0">EUR: -{{coupon.minus_EUR}}</span>
                                     <span v-if="coupon.minus_USD != 0">USD: -{{coupon.minus_USD}}</span>
                                     <span v-if="coupon.minus_NZD != 0">NZD: -{{coupon.minus_NZD}}</span>
                                     <span v-if="coupon.minus_GBP != 0">GBP: -{{coupon.minus_GBP}}</span>
                                     <span v-if="coupon.minus_AUD != 0">AUD: -{{coupon.minus_AUD}}</span>
                                 </td>
-                                <td class="px-6 py-4 text-sm leading-5 text-purple-900">
+                                <td class="px-6 py-4 text-sm leading-5 text-purple-900" @click="selectCoupon({ value1: coupon, value2: 'showEditModal' })">
                                     {{coupon.notes}}
                                 </td>
-                                <td class="px-6 py-4 text-sm leading-5 text-purple-900">
+                                <td class="px-6 py-4 text-sm leading-5 text-purple-900" @click="selectCoupon({ value1: coupon, value2: 'showEditModal' })">
                                     {{coupon.sku | truncate(20)}}
                                 </td>
-                                <td class="px-6 py-4 text-sm leading-5 text-purple-900">
+                                <td class="px-6 py-4 text-sm leading-5 text-purple-900" @click="selectCoupon({ value1: coupon, value2: 'showEditModal' })">
                                     {{coupon.end_date | formatDate}}
                                 </td>
-                                <td class="px-6 py-4 text-sm leading-5 text-purple-900">
+                                <td class="px-6 py-4 text-sm leading-5 text-purple-900" @click="selectCoupon({ value1: coupon, value2: 'showEditModal' })">
                                     {{coupon.weekday}}
                                 </td>
-                                <td class="px-6 py-4 text-sm leading-5 text-purple-900">
+                                <td class="px-6 py-4 text-sm leading-5 text-purple-900" @click="selectCoupon({ value1: coupon, value2: 'showEditModal' })">
                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800" v-if="coupon.status">
                                         Active
                                     </span>

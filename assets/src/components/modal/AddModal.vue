@@ -19,11 +19,11 @@
                             <div class="mt-2">
                                 <div class="mt-4">
                                     <label for="coupon_name" class="block mb-1 cursor-pointer">Coupon Name:</label>
-                                    <input aria-label="Coupon Name" id="coupon_name" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none outline-none sm:text-sm sm:leading-5" placeholder="Coupon Name" @change="updateCouponName($event)">
+                                    <input aria-label="Coupon Name" id="coupon_name" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none outline-none sm:text-sm sm:leading-5" placeholder="Coupon Name" @change="setCouponName">
                                 </div>
                                 <div class="mt-4">
                                     <label for="coupon_name" class="block mb-1 cursor-pointer">Coupon Name:</label>
-                                    <textarea aria-label="Coupon Note" name="name" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Coupon Note" @change="updateDescription($event)"></textarea>
+                                    <textarea aria-label="Coupon Note" name="name" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Coupon Note" @change="setCouponNotes"></textarea>
                                 </div>
                                 <div class="mt-4">
                                     <label class="inline-flex items-center">
@@ -36,7 +36,7 @@
                                     </label>
                                 </div>
                                 <div class="mt-4" v-if="discountType">
-                                    <input aria-label="Discount, %" name="discount" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Discount, %" @change="updateDiscount($event)">
+                                    <input aria-label="Discount, %" name="discount" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Discount, %" @change="setDiscount">
                                 </div>
                                 <div class="mt-4" v-else>
                                     <fieldset class="mt-4 flex flex">
@@ -62,11 +62,11 @@
                                 </div>
                                 <div class="mt-4">
                                     <label for="url" class="block mb-1 cursor-pointer">URL Address:</label>
-                                    <input aria-label="URL Address" id="url" name="url" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="URL Address" @change="updateURL($event)">
+                                    <input aria-label="URL Address" id="url" name="url" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="URL Address" @change="setURL($event)">
                                 </div>
                                 <div class="mt-4">
                                     <label for="except_url" class="block mb-1 cursor-pointer">Except URL Address:</label>
-                                    <input aria-label="Except URL Address" id="except_url" name="except_url" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Except URL Address" @change="updateExceptURL($event)">
+                                    <input aria-label="Except URL Address" id="except_url" name="except_url" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Except URL Address" @change="setExceptURL($event)">
                                 </div>
                                 <div class="mt-4">
                                     <label for="usage_limit" class="block mb-1 cursor-pointer">Usage Limit:</label>
@@ -74,26 +74,26 @@
                                 </div>
                                 <div class="mt-4">
                                     <fieldset class="mt-4 flex flex">
-                                        <input aria-label="Start Date" name="discount" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Start Date" @change="updateName($event)">
-                                        <input aria-label="End Date" name="discount" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5 none" placeholder="End Date" @change="updateName($event)">
+                                        <input aria-label="Start Date" name="discount" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Start Date" @change="setStartDate($event)">
+                                        <input aria-label="End Date" name="discount" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5 none" placeholder="End Date" @change="setEndDate($event)">
                                     </fieldset>
                                 </div>
                                 <div class="mt-4">
                                     <fieldset class="mt-4 flex flex">
-                                        <label for="mon" class="rounded relative block w-full px-3 py-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200"><input type="checkbox" value="Mon" id="mon" class="invisible" @change="updateWeekday($event)"/><span>Monday</span></label>
-                                        <label for="tue" class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200"><input type="checkbox" value="Tue" id="tue" class="invisible" @change="updateWeekday($event)"/><span>Tuesday</span></label>
-                                        <label for="wen" class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200"><input type="checkbox" value="Wen" id="wen" class="invisible" @change="updateWeekday($event)"/><span>Wednesday</span></label>
-                                        <label for="thu" class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200"><input type="checkbox" value="Thu" id="thu" class="invisible" @change="updateWeekday($event)"/><span>Thursday</span></label>
-                                        <label for="fri" class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200"><input type="checkbox" value="Fri" id="fri" class="invisible" @change="updateWeekday($event)"/><span>Friday</span></label>
-                                        <label for="sat" class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200"><input type="checkbox" value="Sat" id="sat" class="invisible" @change="updateWeekday($event)"/><span>Saturday</span></label>
-                                        <label for="sun" class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200"><input type="checkbox" value="Sun" id="sun" class="invisible" @change="updateWeekday($event)"/><span>Sunday</span></label>
+                                        <label for="Mon" class="rounded relative block w-full px-3 py-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200" :class="weekdayStatus.Mon"><input type="checkbox" value="Mon" id="Mon" class="invisible" @change="updateWeekday($event, 'Mon')"/><span>Monday</span></label>
+                                        <label for="Tue" class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200" :class="weekdayStatus.Tue"><input type="checkbox" value="Tue" id="Tue" class="invisible" @change="updateWeekday($event, 'Tue')"/><span>Tuesday</span></label>
+                                        <label for="Wen" class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200" :class="weekdayStatus.Wen"><input type="checkbox" value="Wen" id="Wen" class="invisible" @change="updateWeekday($event, 'Wen')"/><span>Wednesday</span></label>
+                                        <label for="Thu" class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200" :class="weekdayStatus.Thu"><input type="checkbox" value="Thu" id="Thu" class="invisible" @change="updateWeekday($event, 'Thu')"/><span>Thursday</span></label>
+                                        <label for="Fri" class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200" :class="weekdayStatus.Fri"><input type="checkbox" value="Fri" id="Fri" class="invisible" @change="updateWeekday($event, 'Fri')"/><span>Friday</span></label>
+                                        <label for="Sat" class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200" :class="weekdayStatus.Sat"><input type="checkbox" value="Sat" id="Sat" class="invisible" @change="updateWeekday($event, 'Sat')"/><span>Saturday</span></label>
+                                        <label for="Sun" class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200" :class="weekdayStatus.Sun"><input type="checkbox" value="Sun" id="Sun" class="invisible" @change="updateWeekday($event, 'Sun')"/><span>Sunday</span></label>
                                     </fieldset>
                                 </div>
                                 <div class="mt-4">
                                     <fieldset class="mt-4 flex flex">
-                                        <label for="activateCoupon" class="rounded relative block w-full px-3 py-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200"><input type="checkbox" id="activateCoupon" class="invisible" @change="updateActivateCoupon($event)"/><span>Activate Coupon</span></label>
+                                        <label for="couponStatus" class="rounded relative block w-full px-3 py-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200"><input type="checkbox" id="couponStatus" class="invisible" @click="updateCouponStatus($event)"/><span>{{couponStatus}}</span></label>
                                         <label for="minimum_spend_amount" class="relative block w-full px-3 py-2 ml-2 text-gray-900 outline-none text-right cursor-pointer sm:text-sm sm:leading-5">Minimum Spend Amount</label>
-                                        <input aria-label="Minimum Spend Amount" id="minimum_spend_amount" name="minimum_spend_amount" type="number" required class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5 none" placeholder="Minimum Spend Amount" @change="updateMinimumSpendAmount($event)">
+                                        <input aria-label="Minimum Spend Amount" id="minimum_spend_amount" name="minimum_spend_amount" type="number" required class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5 none" placeholder="Minimum Spend Amount" @change="setMinimumSpendAmount($event)">
                                     </fieldset>
                                 </div>
                             </div>
@@ -125,6 +125,17 @@
         data() {
             return {
                 discountType: true,
+                couponStatus: "Activate Coupon",
+                weekdayStatus: {
+                    Mon: "",
+                    Tue: "",
+                    Wen: "",
+                    Thu: "",
+                    Fri: "",
+                    Sat: "",
+                    Sun: ""
+                },
+                weekday: [],
                 options: [
                     {
                         language: 'Javascript',
@@ -159,7 +170,7 @@
             ...mapGetters('CouponList', ['showAddModal']),
         },
         methods: {
-            ...mapActions('CouponList', ['setModalVisibility', 'setCouponName', 'setCouponNotes', 'setDiscount', 'setDiscountNumber', 'setURL', 'setExceptURL', 'setUsageLimit', 'setStartDate', 'setEndDate', 'setWeekday', 'setMinimumSpendAmount']),
+            ...mapActions('CouponList', ['setModalVisibility', 'insertCoupon', 'setCouponName', 'setCouponNotes', 'setDiscount', 'setDiscountNumber', 'setURL', 'setExceptURL', 'setUsageLimit', 'setStartDate', 'setEndDate', 'setWeekday', 'setCouponStatus', 'setMinimumSpendAmount']),
             updateModalVisibility(modalName, modalValue) {
                 let v = {
                     modalName: modalName,
@@ -178,6 +189,39 @@
                     value: event.target.value,
                 }
                 this.setDiscountNumber(event.target.value)
+            },
+            updateLineItems(event) {
+
+            },
+            updateExceptLineItems(event) {
+
+            },
+            updateWeekday(event, day) {
+                if (event.target.checked)
+                {
+                    this.weekdayStatus[day] = "bg-gray-400";
+                    this.weekday.push(day);
+                }
+                else
+                {
+                    this.weekdayStatus[day] = "";
+                    this.weekday.splice(this.weekday.indexOf(day), 1)
+                }
+
+                this.setWeekday(this.weekday.join(' ,'));
+            },
+            updateCouponStatus(event)
+            {
+                if (event.target.checked)
+                {
+                    this.couponStatus = "Deactive Coupon";
+                    this.setCouponStatus(1);
+                }
+                else
+                {
+                    this.couponStatus = "Activate Coupon";
+                    this.setCouponStatus(0);
+                }
             }
         }
     }

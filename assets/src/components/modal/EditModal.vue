@@ -80,18 +80,18 @@
                                 </div>
                                 <div class="mt-4">
                                     <fieldset class="mt-4 flex flex">
-                                        <label for="mon" class="rounded relative block w-full px-3 py-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200"><input type="checkbox" value="Mon" id="mon" class="invisible" @change="setWeekday"/><span>Monday</span></label>
-                                        <label for="tue" class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200"><input type="checkbox" value="Tue" id="tue" class="invisible" @change="setWeekday"/><span>Tuesday</span></label>
-                                        <label for="wen" class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200"><input type="checkbox" value="Wen" id="wen" class="invisible" @change="setWeekday"/><span>Wednesday</span></label>
-                                        <label for="thu" class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200"><input type="checkbox" value="Thu" id="thu" class="invisible" @change="setWeekday"/><span>Thursday</span></label>
-                                        <label for="fri" class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200"><input type="checkbox" value="Fri" id="fri" class="invisible" @change="setWeekday"/><span>Friday</span></label>
-                                        <label for="sat" class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200"><input type="checkbox" value="Sat" id="sat" class="invisible" @change="setWeekday"/><span>Saturday</span></label>
-                                        <label for="sun" class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200"><input type="checkbox" value="Sun" id="sun" class="invisible" @change="setWeekday"/><span>Sunday</span></label>
+                                        <label for="Mon" class="rounded relative block w-full px-3 py-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200" :class="weekdayStatus.Mon"><input type="checkbox" value="Mon" id="Mon" class="invisible" @change="updateWeekday($event, 'Mon')"/><span>Monday</span></label>
+                                        <label for="Tue" class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200" :class="weekdayStatus.Tue"><input type="checkbox" value="Tue" id="Tue" class="invisible" @change="updateWeekday($event, 'Tue')"/><span>Tuesday</span></label>
+                                        <label for="Wen" class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200" :class="weekdayStatus.Wen"><input type="checkbox" value="Wen" id="Wen" class="invisible" @change="updateWeekday($event, 'Wen')"/><span>Wednesday</span></label>
+                                        <label for="Thu" class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200" :class="weekdayStatus.Thu"><input type="checkbox" value="Thu" id="Thu" class="invisible" @change="updateWeekday($event, 'Thu')"/><span>Thursday</span></label>
+                                        <label for="Fri" class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200" :class="weekdayStatus.Fri"><input type="checkbox" value="Fri" id="Fri" class="invisible" @change="updateWeekday($event, 'Fri')"/><span>Friday</span></label>
+                                        <label for="Sat" class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200" :class="weekdayStatus.Sat"><input type="checkbox" value="Sat" id="Sat" class="invisible" @change="updateWeekday($event, 'Sat')"/><span>Saturday</span></label>
+                                        <label for="Sun" class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200" :class="weekdayStatus.Sun"><input type="checkbox" value="Sun" id="Sun" class="invisible" @change="updateWeekday($event, 'Sun')"/><span>Sunday</span></label>
                                     </fieldset>
                                 </div>
                                 <div class="mt-4">
                                     <fieldset class="mt-4 flex flex">
-                                        <label for="activateCoupon" class="rounded relative block w-full px-3 py-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200"><input type="checkbox" id="activateCoupon" class="invisible" @change="setCouponStatus"/><span>Activate Coupon</span></label>
+                                        <label for="couponStatus" class="rounded relative block w-full px-3 py-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200"><input type="checkbox" id="couponStatus" class="invisible" @click="updateCouponStatus($event)"/><span>{{couponStatus}}</span></label>
                                         <label for="minimum_spend_amount" class="relative block w-full px-3 py-2 ml-2 text-gray-900 outline-none text-right cursor-pointer sm:text-sm sm:leading-5">Minimum Spend Amount</label>
                                         <input aria-label="Minimum Spend Amount" id="minimum_spend_amount" name="minimum_spend_amount" type="number" required class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5 none" placeholder="Minimum Spend Amount" @change="setMinimumSpendAmount" :value="currentCoupon.minimum_spend_amount">
                                     </fieldset>
@@ -126,6 +126,17 @@
         data() {
             return {
                 discountType: true,
+                couponStatus: "Activate Coupon",
+                weekdayStatus: {
+                    Mon: "",
+                    Tue: "",
+                    Wen: "",
+                    Thu: "",
+                    Fri: "",
+                    Sat: "",
+                    Sun: ""
+                },
+                weekday: [],
                 options: [
                     {
                         language: 'Javascript',
@@ -160,7 +171,7 @@
             ...mapGetters('CouponList', ['showEditModal', 'currentCoupon']),
         },
         methods: {
-            ...mapActions('CouponList', ['setModalVisibility', 'updateCoupon', 'saveCoupon', 'setCouponName', 'setCouponNotes', 'setDiscount', 'setDiscountNumber', 'setURL', 'setExceptURL', 'setUsageLimit', 'setStartDate', 'setEndDate', 'setWeekday', 'setCouponStatus', 'setMinimumSpendAmount']),
+            ...mapActions('CouponList', ['setModalVisibility', 'updateCoupon', 'setCouponName', 'setCouponNotes', 'setDiscount', 'setDiscountNumber', 'setURL', 'setExceptURL', 'setUsageLimit', 'setStartDate', 'setEndDate', 'setWeekday', 'setCouponStatus', 'setMinimumSpendAmount']),
             updateModalVisibility(modalName, modalValue) {
                 let v = {
                     modalName: modalName,
@@ -179,6 +190,39 @@
                     value: event.target.value,
                 }
                 this.setDiscountNumber(event.target.value)
+            },
+            updateLineItems(event) {
+
+            },
+            updateExceptLineItems(event) {
+
+            },
+            updateWeekday(event, day) {
+                if (event.target.checked)
+                {
+                    this.weekdayStatus[day] = "bg-gray-400";
+                    this.weekday.push(day);
+                }
+                else
+                {
+                    this.weekdayStatus[day] = "";
+                    this.weekday.splice(this.weekday.indexOf(day), 1)
+                }
+
+                this.setWeekday(this.weekday.join(' ,'));
+            },
+            updateCouponStatus(event)
+            {
+                if (event.target.checked)
+                {
+                    this.couponStatus = "Deactive Coupon";
+                    this.setCouponStatus(1);
+                }
+                else
+                {
+                    this.couponStatus = "Activate Coupon";
+                    this.setCouponStatus(0);
+                }
             }
         }
     }
