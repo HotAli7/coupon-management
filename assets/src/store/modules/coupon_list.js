@@ -22,11 +22,11 @@ const getters = {
         let firstSliceNumber = state.currentPage*state.pageSize
         let lastSliceNumber = (state.currentPage+1)*state.pageSize
         let rows = [];
+
         if (state.coupons.length != 0)
         {
             rows = state.coupons.slice(firstSliceNumber, lastSliceNumber)
         }
-
         return rows
     },
     couponAll:          state => state.coupons,
@@ -94,25 +94,8 @@ const actions = {
             })
     },
     insertCoupon({ commit, state }) {
-        console.log(state.newCoupon);
 
-        // let message = "";
-        // if (state.newCoupon.coupon_name == "" || typeof state.newCoupon.coupon_name == "undefined")
-        //     message = "You must type Coupon Name! \n\r"
-        // if (state.newCoupon.discount == "" || typeof state.newCoupon.discount == "undefined")
-        //     message += "You must type Discount! \n\r"
-        // if (state.newCoupon.end_date == "" || typeof state.newCoupon.end_date == "undefined")
-        //     message += "You must type End Date! \n\r"
-        // // if (state.newCoupon.sku == "" || typeof state.newCoupon.sku == "undefined")
-        // //     message += "You must select Gender! \n\r"
-        // if (message != "")
-        // {
-        //     commit('setError', message)
-        //     return;
-        // }
-
-        let params = _.cloneDeep(state.newCoupon)
-        console.log(params)
+        let params = state.newCoupon
         const config = {
             headers: {
                 'Content-Type': 'multipart/form-data',
@@ -141,7 +124,7 @@ const actions = {
                             modalValue: false,
                         }
                         commit('setModalVisibility', v)
-                        commit('setSuccess', response.data.message);
+                        commit('setSuccess', "Successfully Inserted!!");
                         dispatch('fetchData')
                     }
                 })
@@ -152,7 +135,45 @@ const actions = {
             })
     },
     updateCoupon({ commit, state }) {
-        console.log(state.newCoupon);
+
+        let params = state.newCoupon
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': 'Bearer HzGGZXFdtoq1sJbZWzBYwSzuNBr99Fogj7IdSqPN'
+            }
+        }
+        let formData = new FormData();
+        Object.keys(params).forEach(function (key) {
+            if(params[key] !== null)
+            {
+                formData.append(key, params[key]);
+            }
+        });
+
+        axios.put("https://apitest.livingformusicgroup.com/api/admin/v1/coupons/"+params.id, formData, config)
+            .then(
+                function(response) {
+                    console.log(response)
+                    if (response.data.error) {
+                        commit('setError', response.data.message)
+                    }
+                    else
+                    {
+                        let v = {
+                            modalName: "showAddModal",
+                            modalValue: false,
+                        }
+                        commit('setModalVisibility', v)
+                        commit('setSuccess', "Successfully Inserted!!");
+                        dispatch('fetchData')
+                    }
+                })
+            .catch(error => {
+                let message = error.data.message || error.message
+                commit('setError', message)
+                console.log(message)
+            })
     },
     selectCoupon({ commit }, { value1, value2 }) {
         commit('selectCoupon', value1)
@@ -180,11 +201,11 @@ const actions = {
     setDiscountNumber({ commit }, value) {
         commit('setDiscountNumber', value)
     },
-    setURL({ commit }, value) {
-        commit('setURL', value)
+    setURL({ commit }, event) {
+        commit('setURL', event.target.value)
     },
-    setExceptURL({ commit }, value) {
-        commit('setExceptURL', value)
+    setExceptURL({ commit }, event) {
+        commit('setExceptURL', event.target.value)
     },
     setUsageLimit({ commit }, event) {
         commit('setUsageLimit', event.target.value)
@@ -272,12 +293,12 @@ const mutations = {
     },
     setSearchKey(state, value) {
         state.key = value
-
         if (state.couponAll.length != 0)
         {
-            state.searchedCouponAll = state.couponAll.filter(coupon => {
+            state.coupons = state.searchedCouponAll = state.couponAll.filter(coupon => {
                 return coupon.coupon_name.toLowerCase().includes(state.key.toLowerCase());
             });
+
             state.currentPage = 0
         }
     },

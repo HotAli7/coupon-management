@@ -29,6 +29,8 @@ Vue.filter('formatDate', function(value) {
     }
 });
 Vue.filter('truncate', function (value, limit) {
+    if (!value)
+        return "";
     if (value.length > limit) {
         value = value.substring(0, (limit - 3)) + '...';
     }
