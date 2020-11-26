@@ -175,6 +175,47 @@ const actions = {
                 console.log(message)
             })
     },
+    deleteCoupon({ commit, state }) {
+
+        let params = state.newCoupon
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': 'Bearer HzGGZXFdtoq1sJbZWzBYwSzuNBr99Fogj7IdSqPN'
+            }
+        }
+        let formData = new FormData();
+        Object.keys(params).forEach(function (key) {
+            if(params[key] !== null)
+            {
+                formData.append(key, params[key]);
+            }
+        });
+
+        axios.delete("https://apitest.livingformusicgroup.com/api/admin/v1/coupons/"+params.id, formData, config)
+            .then(
+                function(response) {
+                    console.log(response)
+                    if (response.data.error) {
+                        commit('setError', response.data.message)
+                    }
+                    else
+                    {
+                        let v = {
+                            modalName: "showAddModal",
+                            modalValue: false,
+                        }
+                        commit('setModalVisibility', v)
+                        commit('setSuccess', "Successfully Deleted!!");
+                        dispatch('fetchData')
+                    }
+                })
+            .catch(error => {
+                let message = error.data.message || error.message
+                commit('setError', message)
+                console.log(message)
+            })
+    },
     selectCoupon({ commit }, { value1, value2 }) {
         commit('selectCoupon', value1)
         let v = {
