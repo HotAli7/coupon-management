@@ -139,19 +139,21 @@ const actions = {
         let params = state.newCoupon
         const config = {
             headers: {
-                'Content-Type': 'multipart/form-data',
+                'Content-Type': 'application/x-www-form-urlencoded',
                 'Authorization': 'Bearer HzGGZXFdtoq1sJbZWzBYwSzuNBr99Fogj7IdSqPN'
             }
         }
-        let formData = new FormData();
+        let urlEncodedData = "",
+            urlEncodedDataPairs = [];
         Object.keys(params).forEach(function (key) {
             if(params[key] !== null)
             {
-                formData.append(key, params[key]);
+                urlEncodedDataPairs.push(encodeURIComponent( key ) + '=' + encodeURIComponent( params[key] ));
             }
         });
 
-        axios.put("https://apitest.livingformusicgroup.com/api/admin/v1/coupons/"+params.id, formData, config)
+        urlEncodedData = urlEncodedDataPairs.join( '&' ).replace( /%20/g, '+' );
+        axios.put("https://apitest.livingformusicgroup.com/api/admin/v1/coupons/"+params.id, urlEncodedData, config)
             .then(
                 function(response) {
                     console.log(response)
@@ -161,11 +163,11 @@ const actions = {
                     else
                     {
                         let v = {
-                            modalName: "showAddModal",
+                            modalName: "showEditModal",
                             modalValue: false,
                         }
                         commit('setModalVisibility', v)
-                        commit('setSuccess', "Successfully Inserted!!");
+                        commit('setSuccess', "Successfully Updated!!");
                         dispatch('fetchData')
                     }
                 })
@@ -202,7 +204,7 @@ const actions = {
                     else
                     {
                         let v = {
-                            modalName: "showAddModal",
+                            modalName: "showDeleteModal",
                             modalValue: false,
                         }
                         commit('setModalVisibility', v)
