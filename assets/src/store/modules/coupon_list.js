@@ -5,6 +5,8 @@ function initialState() {
         couponAll: [],
         currentCoupon: [],
         newCoupon: [],
+        voiceProductAll: [],
+        searchedVoiceProductAll: [],
         errorMsg: false,
         successMsg: false,
         showAddModal: false,
@@ -53,18 +55,20 @@ const getters = {
         }
         return expired_count
     },
-    currentCoupon:      state => state.currentCoupon,
-    newCoupon:          state => state.newCoupon,
-    status:             state => state.status,
-    total:              state => state.coupons.length,
-    errorMsg:           state => state.errorMsg,
-    successMsg:         state => state.successMsg,
-    showAddModal:       state => state.showAddModal,
-    showEditModal:      state => state.showEditModal,
-    showDeleteModal:    state => state.showDeleteModal,
-    currentPage:        state => state.currentPage,
-    pageSize:           state => state.pageSize,
-    key:                state => state.key
+    currentCoupon:                  state => state.currentCoupon,
+    newCoupon:                      state => state.newCoupon,
+    voiceProductAll:                state => state.voiceProductAll,
+    searchedVoiceProductAll:        state => state.searchedVoiceProductAll,
+    status:                         state => state.status,
+    total:                          state => state.coupons.length,
+    errorMsg:                       state => state.errorMsg,
+    successMsg:                     state => state.successMsg,
+    showAddModal:                   state => state.showAddModal,
+    showEditModal:                  state => state.showEditModal,
+    showDeleteModal:                state => state.showDeleteModal,
+    currentPage:                    state => state.currentPage,
+    pageSize:                       state => state.pageSize,
+    key:                            state => state.key
 }
 
 const actions = {
@@ -226,6 +230,31 @@ const actions = {
         }
         commit('setModalVisibility', v)
     },
+    fetchVoiceProducts({ commit, state }) {
+        axios
+            .request({
+                url: 'https://apitest.livingformusicgroup.com/api/admin/v1/products',
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer HzGGZXFdtoq1sJbZWzBYwSzuNBr99Fogj7IdSqPN'
+                }
+            })
+            .then(
+                function (response) {
+                    if (response.data.error) {
+                        commit('setError', response.data.message)
+                    }
+                    else
+                    {
+                        commit('setAllVoiceProducts', response.data.data)
+                    }
+                }
+            )
+            .catch(error => {
+                let message = error.data.message || error.message
+                commit('setError', message)
+            })
+    },
     setModalVisibility({ commit }, value) {
         commit('setModalVisibility', value)
     },
@@ -243,6 +272,12 @@ const actions = {
     },
     setDiscountNumber({ commit }, value) {
         commit('setDiscountNumber', value)
+    },
+    setLineItems({ commit }, value) {
+        commit('setLineItems', value)
+    },
+    setExceptLineItems({ commit }, value) {
+        commit('setExceptLineItems', value)
     },
     setURL({ commit }, event) {
         commit('setURL', event.target.value)
@@ -285,6 +320,10 @@ const mutations = {
         state.couponAll = items
         state.searchedCouponAll = items
     },
+    setAllVoiceProducts(state, items) {
+        state.voiceProductAll = items;
+        state.searchedVoiceProductAll = items;
+    },
     selectCoupon(state, value) {
         state.currentCoupon      = value
         state.newCoupon          = value
@@ -309,6 +348,12 @@ const mutations = {
     },
     setDiscountNumber(state, value) {
         state.newCoupon[value['currency']] =  value['value']
+    },
+    setLineItems(state, value) {
+        state.newCoupon.sku =  value
+    },
+    setExceptLineItems(state, value) {
+        state.newCoupon.except_sku =  value
     },
     setURL(state, value) {
         state.newCoupon.url =  value

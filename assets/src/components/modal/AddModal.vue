@@ -54,11 +54,11 @@
                                 </div>
                                 <div class="mt-4">
                                     <label class="block mb-1">Line Items:</label>
-                                    <multiselect v-model="value" :options="options" :multiple="true" group-values="libs" group-label="language" :group-select="true" placeholder="Type to search" track-by="name" label="name" @input="updateLineItems"><span slot="noResult">Oops! No elements found. Consider changing the search query.</span></multiselect>
+                                    <multiselect v-model="lineItems" :options="voiceProductAll" :multiple="true" placeholder="Type to search" track-by="name" label="name" @input="updateLineItems"><span slot="noResult">Oops! No elements found. Consider changing the search query.</span></multiselect>
                                 </div>
                                 <div class="mt-4">
                                     <label class="block mb-1">Except Line Items:</label>
-                                    <multiselect v-model="value" :options="options" :multiple="true" group-values="libs" group-label="language" :group-select="true" placeholder="Type to search" track-by="name" label="name" @input="updateExceptLineItems"><span slot="noResult">Oops! No elements found. Consider changing the search query.</span></multiselect>
+                                    <multiselect v-model="exceptLineItems" :options="voiceProductAll" :multiple="true" group-values="libs" group-label="language" :group-select="true" placeholder="Type to search" track-by="name" label="name" @input="updateExceptLineItems"><span slot="noResult">Oops! No elements found. Consider changing the search query.</span></multiselect>
                                 </div>
                                 <div class="mt-4">
                                     <label for="url" class="block mb-1 cursor-pointer">URL Address:</label>
@@ -136,41 +136,20 @@
                     Sun: ""
                 },
                 weekday: [],
-                options: [
-                    {
-                        language: 'Javascript',
-                        libs: [
-                            { name: 'Vue.js', category: 'Front-end' },
-                            { name: 'Adonis', category: 'Backend' }
-                        ]
-                    },
-                    {
-                        language: 'Ruby',
-                        libs: [
-                            { name: 'Rails', category: 'Backend' },
-                            { name: 'Sinatra', category: 'Backend' }
-                        ]
-                    },
-                    {
-                        language: 'Other',
-                        libs: [
-                            { name: 'Laravel', category: 'Backend' },
-                            { name: 'Phoenix', category: 'Backend' }
-                        ]
-                    }
-                ],
-                value: []
+                lineItems: [],
+                exceptLineItems: []
             }
         },
         created() {
+            this.fetchVoiceProducts()
         },
         destroyed() {
         },
         computed: {
-            ...mapGetters('CouponList', ['showAddModal']),
+            ...mapGetters('CouponList', ['showAddModal', 'voiceProductAll']),
         },
         methods: {
-            ...mapActions('CouponList', ['setModalVisibility', 'insertCoupon', 'setCouponName', 'setCouponNotes', 'setDiscount', 'setDiscountNumber', 'setURL', 'setExceptURL', 'setUsageLimit', 'setStartDate', 'setEndDate', 'setWeekday', 'setCouponStatus', 'setMinimumSpendAmount']),
+            ...mapActions('CouponList', ['setModalVisibility', 'fetchVoiceProducts', 'insertCoupon', 'setCouponName', 'setCouponNotes', 'setDiscount', 'setDiscountNumber', 'setLineItems', 'setExceptLineItems', 'setURL', 'setExceptURL', 'setUsageLimit', 'setStartDate', 'setEndDate', 'setWeekday', 'setCouponStatus', 'setMinimumSpendAmount']),
             updateModalVisibility(modalName, modalValue) {
                 let v = {
                     modalName: modalName,
@@ -181,7 +160,6 @@
             updateDiscountType(value)
             {
                 this.discountType = value
-                console.log(this.discountType)
             },
             UpdateDiscountNumber(event, currency) {
                 let v = {
@@ -191,10 +169,12 @@
                 this.setDiscountNumber(event.target.value)
             },
             updateLineItems(event) {
-
+                let lineItemSKU = this.lineItems.map(item => item.sku)
+                this.setLineItems(lineItemSKU.join())
             },
             updateExceptLineItems(event) {
-
+                let exceptLineItemSKU = this.exceptLineItems.map(item => item.sku)
+                this.setExceptLineItems(exceptLineItemSKU.join())
             },
             updateWeekday(event, day) {
                 if (event.target.checked)
