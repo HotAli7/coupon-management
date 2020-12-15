@@ -19,11 +19,11 @@
                             <div class="mt-2">
                                 <div class="mt-4">
                                     <label for="coupon_name" class="block mb-1 cursor-pointer">Coupon Name:</label>
-                                    <input aria-label="Coupon Name" id="coupon_name" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none outline-none sm:text-sm sm:leading-5" placeholder="Coupon Name" @change="setCouponName" :value="currentCoupon.coupon_name">
+                                    <input aria-label="Coupon Name" id="coupon_name" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none outline-none sm:text-sm sm:leading-5" placeholder="Coupon Name" @change="setCouponName" :value="newCoupon.coupon_name">
                                 </div>
                                 <div class="mt-4">
                                     <label for="coupon_name" class="block mb-1 cursor-pointer">Coupon Notes:</label>
-                                    <textarea aria-label="Coupon Note" name="name" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Coupon Note" @change="setCouponNotes">{{ currentCoupon.notes }}</textarea>
+                                    <textarea aria-label="Coupon Note" name="name" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Coupon Note" @change="setCouponNotes">{{ newCoupon.notes }}</textarea>
                                 </div>
                                 <div class="mt-4">
                                     <label class="inline-flex items-center">
@@ -36,7 +36,7 @@
                                     </label>
                                 </div>
                                 <div class="mt-4" v-if="discountType">
-                                    <input aria-label="Discount, %" name="discount" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Discount, %" @change="setDiscount" :value="currentCoupon.discount">
+                                    <input aria-label="Discount, %" name="discount" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Discount, %" @change="setDiscount" :value="newCoupon.discount">
                                 </div>
                                 <div class="mt-4" v-else>
                                     <fieldset class="mt-4 flex flex">
@@ -54,46 +54,61 @@
                                 </div>
                                 <div class="mt-4">
                                     <label class="block mb-1">Line Items:</label>
-                                    <multiselect v-model="lineItems" :options="voiceProductAll" :multiple="true" placeholder="Type to search" track-by="name" label="name" @input="updateLineItems"><span slot="noResult">Oops! No elements found. Consider changing the search query.</span></multiselect>
+                                    <multiselect v-model="lineItems" :options="voiceProductAll" :multiple="true" group-values="products" group-label="type" :group-select="true" placeholder="Type to search" track-by="name" label="name" @input="updateLineItems"><span slot="noResult">Oops! No elements found. Consider changing the search query.</span></multiselect>
                                 </div>
                                 <div class="mt-4">
                                     <label class="block mb-1">Except Line Items:</label>
-                                    <multiselect v-model="exceptLineItems" :options="voiceProductAll" :multiple="true" placeholder="Type to search" track-by="name" label="name" @input="updateExceptLineItems"><span slot="noResult">Oops! No elements found. Consider changing the search query.</span></multiselect>
+                                    <multiselect v-model="exceptLineItems" :options="voiceProductAll" :multiple="true" group-values="products" group-label="type" :group-select="true" placeholder="Type to search" track-by="name" label="name" @input="updateExceptLineItems"><span slot="noResult">Oops! No elements found. Consider changing the search query.</span></multiselect>
                                 </div>
                                 <div class="mt-4">
                                     <label for="url" class="block mb-1 cursor-pointer">URL Address:</label>
-                                    <input aria-label="URL Address" id="url" name="url" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="URL Address" @change="setURL" :value="currentCoupon.url">
+                                    <input aria-label="URL Address" id="url" name="url" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="URL Address" @change="setURL" :value="newCoupon.url">
                                 </div>
                                 <div class="mt-4">
                                     <label for="except_url" class="block mb-1 cursor-pointer">Except URL Address:</label>
-                                    <input aria-label="Except URL Address" id="except_url" name="except_url" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Except URL Address" @change="setExceptURL" :value="currentCoupon.except_url">
+                                    <input aria-label="Except URL Address" id="except_url" name="except_url" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Except URL Address" @change="setExceptURL" :value="newCoupon.except_url">
                                 </div>
                                 <div class="mt-4">
                                     <label for="usage_limit" class="block mb-1 cursor-pointer">Usage Limit:</label>
-                                    <input aria-label="Usage Limit (Number of Times)" id="usage_limit" name="usage_limit" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Usage Limit (Number of Times)" @change="setUsageLimit" :value="currentCoupon.usage_limit">
+                                    <input aria-label="Usage Limit (Number of Times)" id="usage_limit" name="usage_limit" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Usage Limit (Number of Times)" @change="setUsageLimit" :value="newCoupon.usage_limit">
                                 </div>
                                 <div class="mt-4">
                                     <fieldset class="mt-4 flex flex">
-                                        <input aria-label="Start Date" name="discount" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Start Date" @change="setStartDate" :value="currentCoupon.start_date">
-                                        <input aria-label="End Date" name="discount" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5 none" placeholder="End Date" @change="setEndDate" :value="currentCoupon.end_date">
+                                        <input aria-label="Start Date" name="discount" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Start Date - 12/15/2020" @change="setStartDate" :value="newCoupon.start_date">
+                                        <input aria-label="End Date" name="discount" type="text" required class="appearance-none rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 placeholder-gray-500 text-gray-900 outline-none focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5 none" placeholder="End Date - 12/15/2020" @change="setEndDate" :value="newCoupon.end_date">
                                     </fieldset>
                                 </div>
                                 <div class="mt-4">
                                     <fieldset class="mt-4 flex flex">
-                                        <label for="Mon" class="rounded relative block w-full px-3 py-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200" :class="weekdayStatus.Mon"><input type="checkbox" value="Mon" id="Mon" class="invisible" @change="updateWeekday($event, 'Mon')"/><span>Monday</span></label>
-                                        <label for="Tue" class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200" :class="weekdayStatus.Tue"><input type="checkbox" value="Tue" id="Tue" class="invisible" @change="updateWeekday($event, 'Tue')"/><span>Tuesday</span></label>
-                                        <label for="Wen" class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200" :class="weekdayStatus.Wen"><input type="checkbox" value="Wen" id="Wen" class="invisible" @change="updateWeekday($event, 'Wen')"/><span>Wednesday</span></label>
-                                        <label for="Thu" class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200" :class="weekdayStatus.Thu"><input type="checkbox" value="Thu" id="Thu" class="invisible" @change="updateWeekday($event, 'Thu')"/><span>Thursday</span></label>
-                                        <label for="Fri" class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200" :class="weekdayStatus.Fri"><input type="checkbox" value="Fri" id="Fri" class="invisible" @change="updateWeekday($event, 'Fri')"/><span>Friday</span></label>
-                                        <label for="Sat" class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200" :class="weekdayStatus.Sat"><input type="checkbox" value="Sat" id="Sat" class="invisible" @change="updateWeekday($event, 'Sat')"/><span>Saturday</span></label>
-                                        <label for="Sun" class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200" :class="weekdayStatus.Sun"><input type="checkbox" value="Sun" id="Sun" class="invisible" @change="updateWeekday($event, 'Sun')"/><span>Sunday</span></label>
+                                        <label for="Mon" class="rounded relative block w-full px-3 py-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200" :class="weekdayStatus.Mon"><input type="checkbox" value="Mon" id="Mon" class="invisible" @change="updateWeekday($event, 'Mon')" :checked="weekday.includes('Mon')"/><span>Monday</span></label>
+                                        <label for="Tue" class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200" :class="weekdayStatus.Tue"><input type="checkbox" value="Tue" id="Tue" class="invisible" @change="updateWeekday($event, 'Tue')" :checked="weekday.includes('Tue')"/><span>Tuesday</span></label>
+                                        <label for="Wed" class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200" :class="weekdayStatus.Wed"><input type="checkbox" value="Wed" id="Wed" class="invisible" @change="updateWeekday($event, 'Wed')" :checked="weekday.includes('Wed')"/><span>Wednesday</span></label>
+                                        <label for="Thu" class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200" :class="weekdayStatus.Thu"><input type="checkbox" value="Thu" id="Thu" class="invisible" @change="updateWeekday($event, 'Thu')" :checked="weekday.includes('Thu')"/><span>Thursday</span></label>
+                                        <label for="Fri" class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200" :class="weekdayStatus.Fri"><input type="checkbox" value="Fri" id="Fri" class="invisible" @change="updateWeekday($event, 'Fri')" :checked="weekday.includes('Fri')"/><span>Friday</span></label>
+                                        <label for="Sat" class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200" :class="weekdayStatus.Sat"><input type="checkbox" value="Sat" id="Sat" class="invisible" @change="updateWeekday($event, 'Sat')" :checked="weekday.includes('Sat')"/><span>Saturday</span></label>
+                                        <label for="Sun" class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200" :class="weekdayStatus.Sun"><input type="checkbox" value="Sun" id="Sun" class="invisible" @change="updateWeekday($event, 'Sun')" :checked="weekday.includes('Sun')"/><span>Sunday</span></label>
                                     </fieldset>
                                 </div>
                                 <div class="mt-4">
                                     <fieldset class="mt-4 flex flex">
-                                        <label for="couponStatus" class="rounded relative block w-full px-3 py-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200"><input type="checkbox" id="couponStatus" class="invisible" @click="updateCouponStatus($event)"/><span>{{couponStatus}}</span></label>
+                                        <label for="couponStatus" class="rounded relative block w-full px-3 py-2 border border-gray-300 cursor-pointer sm:text-sm sm:leading-5 text-center hover:bg-gray-200">
+                                            <input type="checkbox" id="couponStatus" class="invisible" @click="updateCouponStatus($event)" :checked="newCoupon.status" />
+                                            <span v-show="!newCoupon.status">
+                                                Activate Coupon
+                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                                    Expired
+                                                </span>
+                                            </span>
+
+                                            <span v-show="newCoupon.status">
+                                                Deactivate Coupon
+                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                                    Active
+                                                </span>
+                                            </span>
+                                        </label>
                                         <label for="minimum_spend_amount" class="relative block w-full px-3 py-2 ml-2 text-gray-900 outline-none text-right cursor-pointer sm:text-sm sm:leading-5">Minimum Spend Amount</label>
-                                        <input aria-label="Minimum Spend Amount" id="minimum_spend_amount" name="minimum_spend_amount" type="number" required class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5 none" placeholder="Minimum Spend Amount" @change="setMinimumSpendAmount" :value="currentCoupon.minimum_spend_amount">
+                                        <input aria-label="Minimum Spend Amount" id="minimum_spend_amount" name="minimum_spend_amount" type="number" required class="rounded relative block w-full px-3 py-2 ml-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5 none" placeholder="Minimum Spend Amount" @change="setMinimumSpendAmount" :value="newCoupon.minimum_spend_amount">
                                     </fieldset>
                                 </div>
                             </div>
@@ -126,79 +141,63 @@
         data() {
             return {
                 discountType: true,
-                couponStatus: "Activate Coupon",
                 weekdayStatus: {
                     Mon: "",
                     Tue: "",
-                    Wen: "",
+                    Wed: "",
                     Thu: "",
                     Fri: "",
                     Sat: "",
                     Sun: ""
                 },
                 weekday: [],
-                options: [
-                    {
-                        language: 'Javascript',
-                        libs: [
-                            { name: 'Vue.js', category: 'Front-end' },
-                            { name: 'Adonis', category: 'Backend' }
-                        ]
-                    },
-                    {
-                        language: 'Ruby',
-                        libs: [
-                            { name: 'Rails', category: 'Backend' },
-                            { name: 'Sinatra', category: 'Backend' }
-                        ]
-                    },
-                    {
-                        language: 'Other',
-                        libs: [
-                            { name: 'Laravel', category: 'Backend' },
-                            { name: 'Phoenix', category: 'Backend' }
-                        ]
-                    }
-                ],
                 lineItems: [],
                 exceptLineItems: []
             }
         },
         created() {
             this.fetchVoiceProducts()
-            console.log("created")
-        },
-        mounted() {
-            console.log("mounted")
         },
         destroyed() {
+            this.resetState()
         },
         watch: {
-            currentCoupon: {
-                handler(currentCoupon) {
+            newCoupon: {
+                handler(newCoupon) {
                     if (!this.lineItems.length && !this.exceptLineItems.length)
                     {
-                        if (this.currentCoupon.sku)
-                            this.lineItems = this.voiceProductAll.map(product => {
-                                if (this.currentCoupon.sku.includes(product.sku))
-                                    return product
+                        if (this.newCoupon.sku)
+                            this.voiceProductAll.map(item => {
+                                item.products.map(product => {
+                                    if (this.newCoupon.sku.includes(product.sku))
+                                        this.lineItems.push( product )
+                                })
                             })
-                        if (this.currentCoupon.except_sku)
-                            this.exceptLineItems = this.voiceProductAll.map(product => {
-                                if (this.currentCoupon.except_sku.includes(product.sku))
-                                    return product
+                        if (this.newCoupon.except_sku)
+                            this.voiceProductAll.map(item => {
+                                item.products.map(product => {
+                                    if (this.newCoupon.except_sku.includes(product.sku))
+                                        this.exceptLineItems.push( product )
+                                })
                             })
+                        let weekdayArray = this.newCoupon.weekday.split(",")
+                        weekdayArray.map(day => {
+                            this.weekdayStatus[day.trim()] = "bg-gray-400";
+                            this.weekday.push(day.trim());
+                        })
                     }
                 },
                 deep: true
             }
         },
         computed: {
-            ...mapGetters('CouponList', ['showEditModal', 'currentCoupon', 'voiceProductAll']),
+            ...mapGetters('CouponList', ['showEditModal', 'newCoupon', 'voiceProductAll']),
         },
         methods: {
             ...mapActions('CouponList', ['setModalVisibility', 'fetchVoiceProducts', 'updateCoupon', 'setCouponName', 'setCouponNotes', 'setDiscount', 'setDiscountNumber', 'setLineItems', 'setExceptLineItems', 'setURL', 'setExceptURL', 'setUsageLimit', 'setStartDate', 'setEndDate', 'setWeekday', 'setCouponStatus', 'setMinimumSpendAmount']),
             updateModalVisibility(modalName, modalValue) {
+                this.lineItems = []
+                this.exceptLineItems = []
                 let v = {
                     modalName: modalName,
                     modalValue: modalValue,
@@ -208,7 +207,6 @@
             updateDiscountType(value)
             {
                 this.discountType = value
-                console.log(this.discountType)
             },
             UpdateDiscountNumber(event, currency) {
                 let v = {
@@ -243,12 +241,10 @@
             {
                 if (event.target.checked)
                 {
-                    this.couponStatus = "Deactive Coupon";
                     this.setCouponStatus(1);
                 }
                 else
                 {
-                    this.couponStatus = "Activate Coupon";
                     this.setCouponStatus(0);
                 }
             }

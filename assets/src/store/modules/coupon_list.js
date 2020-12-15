@@ -5,7 +5,20 @@ function initialState() {
         couponAll: [],
         currentCoupon: [],
         newCoupon: [],
-        voiceProductAll: [],
+        voiceProductAll: [
+            {
+                type: "Imaging",
+                products: []
+            },
+            {
+                type: "Commercial",
+                products: []
+            },
+            {
+                type: "Video Voiceover",
+                products: []
+            },
+        ],
         searchedVoiceProductAll: [],
         errorMsg: false,
         successMsg: false,
@@ -102,19 +115,22 @@ const actions = {
         let params = state.newCoupon
         const config = {
             headers: {
-                'Content-Type': 'multipart/form-data',
+                'Content-Type': 'application/x-www-form-urlencoded',
                 'Authorization': 'Bearer HzGGZXFdtoq1sJbZWzBYwSzuNBr99Fogj7IdSqPN'
             }
         }
-        let formData = new FormData();
+        let urlEncodedData = "",
+            urlEncodedDataPairs = [];
         Object.keys(params).forEach(function (key) {
             if(params[key] !== null)
             {
-                formData.append(key, params[key]);
+                urlEncodedDataPairs.push(encodeURIComponent( key ) + '=' + encodeURIComponent( params[key] ));
             }
         });
 
-        axios.post("https://apitest.livingformusicgroup.com/api/admin/v1/coupons", formData, config)
+        urlEncodedData = urlEncodedDataPairs.join( '&' ).replace( /%20/g, '+' );
+
+        axios.post("https://apitest.livingformusicgroup.com/api/admin/v1/coupons", urlEncodedData, config)
             .then(
                 function(response) {
                     console.log(response)
@@ -233,7 +249,7 @@ const actions = {
     fetchVoiceProducts({ commit, state }) {
         axios
             .request({
-                url: 'https://apitest.livingformusicgroup.com/api/admin/v1/products',
+                url: 'https://apitest.livingformusicgroup.com/api/admin/v1/products?group_by=type',
                 method: 'GET',
                 headers: {
                     'Authorization': 'Bearer HzGGZXFdtoq1sJbZWzBYwSzuNBr99Fogj7IdSqPN'
@@ -246,7 +262,7 @@ const actions = {
                     }
                     else
                     {
-                        commit('setAllVoiceProducts', response.data.data)
+                        commit('setAllVoiceProducts', response.data)
                     }
                 }
             )
@@ -321,7 +337,21 @@ const mutations = {
         state.searchedCouponAll = items
     },
     setAllVoiceProducts(state, items) {
-        state.voiceProductAll = items;
+
+        state.voiceProductAll = state.voiceProductAll.map(
+            item => {
+                if (item.type === "Imaging") {
+                    item.products = items["Imaging"].concat(items["DJ Intro"])
+                    return item;
+                } else if (item.type === "Commercial") {
+                    item.products = items["Radio Commercial"].concat(items["Commercial Script"], items["Commercial and Scripting"])
+                    return item;
+                } else {
+                    item.products = items["Video Voiceover"].concat(items["Phone VO"])
+                    return item;
+                }
+            }
+        )
         state.searchedVoiceProductAll = items;
     },
     selectCoupon(state, value) {

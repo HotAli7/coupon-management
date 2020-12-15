@@ -43,6 +43,8 @@
                                     {{coupon.sku | truncate(20)}}
                                 </td>
                                 <td class="px-6 py-4 text-sm leading-5 text-purple-900" @click="selectCoupon({ value1: coupon, value2: 'showEditModal' })">
+                                    {{coupon.start_date | formatDate}}
+                                    <br />
                                     {{coupon.end_date | formatDate}}
                                 </td>
                                 <td class="px-6 py-4 text-sm leading-5 text-purple-900" @click="selectCoupon({ value1: coupon, value2: 'showEditModal' })">
@@ -141,6 +143,7 @@
     }
 </script>
 
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style scoped>
 
 </style>

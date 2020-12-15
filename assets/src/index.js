@@ -24,7 +24,8 @@ Vue.component('v-select', vSelect);
 Vue.component('multiselect', Multiselect)
 
 Vue.filter('formatDate', function(value) {
-    if (value) {
+    console.log(value)
+    if (value && value !== "0000-00-00 00:00:00") {
         return moment(String(value)).format('MM/DD/YYYY')
     }
 });
