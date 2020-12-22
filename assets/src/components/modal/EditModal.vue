@@ -180,11 +180,14 @@
                                         this.exceptLineItems.push( product )
                                 })
                             })
-                        let weekdayArray = this.newCoupon.weekday.split(",")
-                        weekdayArray.map(day => {
-                            this.weekdayStatus[day.trim()] = "bg-gray-400";
-                            this.weekday.push(day.trim());
-                        })
+                        if (this.newCoupon.weekday)
+                        {
+                            let weekdayArray = this.newCoupon.weekday.split(",")
+                            weekdayArray.map(day => {
+                                this.weekdayStatus[day.trim()] = "bg-gray-400";
+                                this.weekday.push(day.trim());
+                            })
+                        }
                     }
                 },
                 deep: true

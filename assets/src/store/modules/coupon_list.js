@@ -107,10 +107,9 @@ const actions = {
             .catch(error => {
                 let message = error.data.message || error.message
                 commit('setError', message)
-                console.log(message)
             })
     },
-    insertCoupon({ commit, state }) {
+    insertCoupon({ commit, state, dispatch }) {
 
         let params = state.newCoupon
         const config = {
@@ -133,7 +132,6 @@ const actions = {
         axios.post("https://apitest.livingformusicgroup.com/api/admin/v1/coupons", urlEncodedData, config)
             .then(
                 function(response) {
-                    console.log(response)
                     if (response.data.error) {
                         commit('setError', response.data.message)
                     }
@@ -149,12 +147,15 @@ const actions = {
                     }
                 })
             .catch(error => {
-                let message = error.data.message || error.message
+                let message = error.response.data.message
+                for (let key in error.response.data.errors)
+                {
+                    message += "<br />" + error.response.data.errors[key][0];
+                }
                 commit('setError', message)
-                console.log(message)
             })
     },
-    updateCoupon({ commit, state }) {
+    updateCoupon({ commit, state, dispatch }) {
 
         let params = state.newCoupon
         const config = {
@@ -176,7 +177,6 @@ const actions = {
         axios.put("https://apitest.livingformusicgroup.com/api/admin/v1/coupons/"+params.id, urlEncodedData, config)
             .then(
                 function(response) {
-                    console.log(response)
                     if (response.data.error) {
                         commit('setError', response.data.message)
                     }
@@ -192,12 +192,17 @@ const actions = {
                     }
                 })
             .catch(error => {
-                let message = error.data.message || error.message
+                let message = error.response.data.message
+
+                for (let key in error.response.data.errors)
+                {
+                    message += "<br />" + error.response.data.errors[key][0];
+                }
+
                 commit('setError', message)
-                console.log(message)
             })
     },
-    deleteCoupon({ commit, state }) {
+    deleteCoupon({ commit, state, dispatch }) {
 
         let params = state.newCoupon
         const config = {
@@ -217,7 +222,6 @@ const actions = {
         axios.delete("https://apitest.livingformusicgroup.com/api/admin/v1/coupons/"+params.id, formData, config)
             .then(
                 function(response) {
-                    console.log(response)
                     if (response.data.error) {
                         commit('setError', response.data.message)
                     }
@@ -233,9 +237,8 @@ const actions = {
                     }
                 })
             .catch(error => {
-                let message = error.data.message || error.message
+                let message = error.response.data.message || error.message
                 commit('setError', message)
-                console.log(message)
             })
     },
     selectCoupon({ commit }, { value1, value2 }) {
