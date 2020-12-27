@@ -54,11 +54,11 @@
                                 </div>
                                 <div class="mt-4">
                                     <label class="block mb-1">Line Items:</label>
-                                    <multiselect v-model="lineItems" :options="voiceProductAll" :multiple="true" group-values="products" group-label="type" :group-select="true" placeholder="Type to search" track-by="name" label="name" @input="updateLineItems"><span slot="noResult">Oops! No elements found. Consider changing the search query.</span></multiselect>
+                                    <multiselect v-model="lineItems" :options="voiceProductAll" :multiple="true" group-values="products" group-label="type" :group-select="true" :close-on-select="false" :clear-on-select="false" :preserve-search="true" :preselect-first="true" :limit="5" placeholder="Type to search" track-by="name" label="name" @input="updateLineItems"><span slot="noResult">Oops! No elements found. Consider changing the search query.</span></multiselect>
                                 </div>
                                 <div class="mt-4">
                                     <label class="block mb-1">Except Line Items:</label>
-                                    <multiselect v-model="exceptLineItems" :options="voiceProductAll" :multiple="true" group-values="products" group-label="type" :group-select="true" placeholder="Type to search" track-by="name" label="name" @input="updateExceptLineItems"><span slot="noResult">Oops! No elements found. Consider changing the search query.</span></multiselect>
+                                    <multiselect v-model="exceptLineItems" :options="voiceProductAll" :multiple="true" group-values="products" group-label="type" :group-select="true" :close-on-select="false" :clear-on-select="false" :preserve-search="true" :preselect-first="true" :limit="5" placeholder="Type to search" track-by="name" label="name" @input="updateExceptLineItems"><span slot="noResult">Oops! No elements found. Consider changing the search query.</span></multiselect>
                                 </div>
                                 <div class="mt-4">
                                     <label for="url" class="block mb-1 cursor-pointer">URL Address:</label>

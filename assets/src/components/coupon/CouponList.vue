@@ -60,8 +60,8 @@
                                 </td>
                                 <td class="px-6 py-4 text-right text-sm leading-5 font-medium flex flex-col">
                                     <div>
-                                        <button @click="selectCoupon({ value1: coupon, value2: 'showEditModal' })" class="pr-4 text-indigo-600 hover:text-indigo-900 focus:outline-none"><i class="fa fa-copy pr-2"></i></button>
-                                        <button @click="selectCoupon({ value1: coupon, value2: 'showDeleteModal' })" class="text-red-600 hover:text-red-900 focus:outline-none"><i class="fa fa-trash pr-2"></i></button>
+                                        <button @click="selectCoupon({ value1: coupon, value2: 'showDuplicateModal' })" class="pr-4 text-indigo-600 hover:text-indigo-900 focus:outline-none"><i class="dashicons-duplicate pr-2"></i></button>
+                                        <button @click="selectCoupon({ value1: coupon, value2: 'showDeleteModal' })" class="text-red-600 hover:text-red-900 focus:outline-none"><i class="dashicons-trash pr-2"></i></button>
                                     </div>
                                     <div>
                                         <span class="block text-green-500">{{coupon.created|formatDate}}</span>
@@ -82,6 +82,7 @@
         <AddModal />
         <EditModal />
         <DeleteModal />
+        <DuplicateModal />
     </div>
 </template>
 
@@ -95,9 +96,10 @@
     import AddModal from "../modal/AddModal";
     import EditModal from "../modal/EditModal";
     import DeleteModal from "../modal/DeleteModal";
+    import DuplicateModal from "../modal/DuplicateModal";
     export default {
         name: "CouponList",
-        components: { CouponHeader, Pagination, Alert, AddModal, EditModal, DeleteModal },
+        components: { CouponHeader, Pagination, Alert, AddModal, EditModal, DeleteModal, DuplicateModal },
         data() {
             return {
                 'activeFilterButton': 'text-green-600',

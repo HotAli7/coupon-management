@@ -25,6 +25,7 @@ function initialState() {
         showAddModal: false,
         showEditModal: false,
         showDeleteModal: false,
+        showDuplicateModal: false,
         showMediaListModal: false,
         currentPage: 0,
         pageSize: 10,
@@ -79,6 +80,7 @@ const getters = {
     showAddModal:                   state => state.showAddModal,
     showEditModal:                  state => state.showEditModal,
     showDeleteModal:                state => state.showDeleteModal,
+    showDuplicateModal:             state => state.showDuplicateModal,
     currentPage:                    state => state.currentPage,
     pageSize:                       state => state.pageSize,
     key:                            state => state.key
@@ -211,15 +213,8 @@ const actions = {
                 'Authorization': 'Bearer HzGGZXFdtoq1sJbZWzBYwSzuNBr99Fogj7IdSqPN'
             }
         }
-        let formData = new FormData();
-        Object.keys(params).forEach(function (key) {
-            if(params[key] !== null)
-            {
-                formData.append(key, params[key]);
-            }
-        });
 
-        axios.delete("https://apitest.livingformusicgroup.com/api/admin/v1/coupons/"+params.id, formData, config)
+        axios.delete("https://apitest.livingformusicgroup.com/api/admin/v1/coupons/"+params.id, config)
             .then(
                 function(response) {
                     if (response.data.error) {
@@ -238,6 +233,52 @@ const actions = {
                 })
             .catch(error => {
                 let message = error.response.data.message || error.message
+                commit('setError', message)
+            })
+    },
+    duplicateCoupon({ commit, state, dispatch }) {
+
+        let params = state.newCoupon
+        const config = {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': 'Bearer HzGGZXFdtoq1sJbZWzBYwSzuNBr99Fogj7IdSqPN'
+            }
+        }
+        let urlEncodedData = "",
+            urlEncodedDataPairs = [];
+        Object.keys(params).forEach(function (key) {
+            if(params[key] !== null)
+            {
+                urlEncodedDataPairs.push(encodeURIComponent( key ) + '=' + encodeURIComponent( params[key] ));
+            }
+        });
+
+        urlEncodedData = urlEncodedDataPairs.join( '&' ).replace( /%20/g, '+' );
+
+        axios.post("https://apitest.livingformusicgroup.com/api/admin/v1/coupons", urlEncodedData, config)
+            .then(
+                function(response) {
+                    if (response.data.error) {
+                        commit('setError', response.data.message)
+                    }
+                    else
+                    {
+                        let v = {
+                            modalName: "showDuplicateModal",
+                            modalValue: false,
+                        }
+                        commit('setModalVisibility', v)
+                        commit('setSuccess', "Successfully Duplicated!!");
+                        dispatch('fetchData')
+                    }
+                })
+            .catch(error => {
+                let message = error.response.data.message
+                for (let key in error.response.data.errors)
+                {
+                    message += "<br />" + error.response.data.errors[key][0];
+                }
                 commit('setError', message)
             })
     },

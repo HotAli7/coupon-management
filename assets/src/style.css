@@ -40,3 +40,18 @@
 .max-h-form {
     max-height: 500px;
 }
+
+.dashicons-trash:before {
+    font-family: "dashicons";
+    content: "\f182";
+}
+
+.dashicons-duplicate:before {
+    font-family: "dashicons";
+    content: "\f105";
+}
+
+.multiselect__option--group {
+    color: white;
+    background: darkorchid;
+}
