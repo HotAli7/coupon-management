@@ -1,3 +1,5 @@
+import moment from "moment";
+
 function initialState() {
     return {
         coupons: [],
@@ -238,7 +240,10 @@ const actions = {
     },
     duplicateCoupon({ commit, state, dispatch }) {
 
-        let params = state.newCoupon
+        let params = state.currentCoupon
+        params.coupon_name += "_copy"
+        params.id = null
+
         const config = {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
